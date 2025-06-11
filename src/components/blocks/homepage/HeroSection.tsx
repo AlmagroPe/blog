@@ -10,6 +10,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Ruler from '@/components/ui/ruler/ruler'
 import { List, ListItem } from '@/components/ui/list/list'
+import { ThemeAwareIcon } from '@/components/blocks/homepage/ThemeAwareIcon'
 
 export function HeroSection() {
     return (
@@ -21,31 +22,32 @@ export function HeroSection() {
         >
             <div className="relative">
                 <StackVertical gap="xs">
-                    <motion.div
-                        animate={{ 
-                            y: [0, -10, 0],
-                        }}
-                        transition={{ 
-                            duration: 3,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                        }}
-                        className={cn("text-2xl sm:text-3xl md:text-4xl", monoFont.className)}
-                    >
-                        ⚙
-                    </motion.div>
+                    <div className="flex items-baseline gap-1">
+                        <div className="flex items-center w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 flex-shrink-0">
+                            <ThemeAwareIcon 
+                                lightIcon="/images/terminal_dark.svg"
+                                darkIcon="/images/terminal_light.svg"
+                                alt="Terminal icon"
+                                width={30}
+                                height={30}
+                                withAnimation
+                            />
+                        </div>
 
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.2 }}
-                        className="relative"
-                    >
-                        <TextHeading as="h1" className="font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-                            Pablo Almagro
-                        </TextHeading>
-                    </motion.div>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.2 }}
+                            className="relative flex items-center"
+                        >
+                            <TextHeading as="h1" className="font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-none">
+                                Pablo Almagro
+                            </TextHeading>
+                        </motion.div>
+                    </div>
 
+                    <Ruler color='colorless' marginTop='lg' marginBottom='none'/>
+                    
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -142,4 +144,4 @@ export function HeroSection() {
             </motion.div>
         </motion.div>
     )
-} 
+}
