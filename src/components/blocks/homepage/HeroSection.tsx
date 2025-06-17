@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import { monoFont } from '@/styles/fonts/fonts'
 import { cn } from '@/lib/utils/utils'
 import TextHeading from '@/components/ui/text-heading/text-heading'
@@ -12,7 +13,29 @@ import Ruler from '@/components/ui/ruler/ruler'
 import { List, ListItem } from '@/components/ui/list/list'
 import { ThemeAwareIcon } from '@/components/blocks/homepage/ThemeAwareIcon'
 
+const useTypingEffect = (text: string, speed: number = 50) => {
+  const [displayText, setDisplayText] = useState('')
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isComplete, setIsComplete] = useState(false)
+
+  useEffect(() => {
+    if (currentIndex < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayText(prev => prev + text[currentIndex])
+        setCurrentIndex(prev => prev + 1)
+      }, speed)
+      
+      return () => clearTimeout(timeout)
+    } else if (!isComplete) {
+      setIsComplete(true)
+    }
+  }, [currentIndex, text, speed, isComplete])
+
+  return { displayText, isComplete }
+}
+
 export function HeroSection() {
+  const { displayText } = useTypingEffect('Pablo Almagro', 100)
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -41,7 +64,8 @@ export function HeroSection() {
                             className="relative flex items-center"
                         >
                             <TextHeading as="h1" className="font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-none">
-                                Pablo Almagro
+                                {displayText}
+                                <span className="animate-pulse">|</span>
                             </TextHeading>
                         </motion.div>
                     </div>
